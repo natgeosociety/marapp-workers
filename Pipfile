@@ -1,0 +1,22 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+boto3 = "*"
+aws-xray-sdk = "*"
+black = "*"
+
+[packages]
+marapp-metrics = {editable = true,git = "git@github.com/natgeosociety/marapp-metrics.git"}
+geopandas = "*"
+requests = "*"
+json-api-doc = "*"
+sentry-sdk = "*"
+
+[requires]
+python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true

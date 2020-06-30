@@ -1,0 +1,95 @@
+service:
+  name: marapp-workers
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-python-requirements
+
+provider:
+  name: aws
+  runtime: python3.7
+  region: ${opt:region, self:custom.defaultRegion}
+  memorySize: 1024
+  timeout: 60
+  vpc:
+    securityGroupIds:
+      - '<SECURITY-GROUP-ID1>'
+      - '<SECURITY-GROUP-ID2>'
+      - '...'
+    subnetIds:
+      - '<SUBNET-ID1>'
+      - '<SUBNET-ID2>'
+      - '...'
+  environment:
+    GOOGLE_SERVICE_ACCOUNT: ${env:GOOGLE_SERVICE_ACCOUNT}
+    SERVICE_API_ENDPOINT: ${env:SERVICE_API_ENDPOINT}
+    SERVICE_API_KEY: ${env:SERVICE_API_KEY}
+    SNS_WORKER_TOPIC_ARN: ${self:custom.workerSnsTopicArn}
+    SNS_RESULT_TOPIC_ARN: ${env:SNS_RESULT_TOPIC_ARN}
+    SENTRY_DSN: ${env:SENTRY_DSN}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - SNS:Publish
+      Resource: { "Fn::Join": [":", ["arn:aws:sns:${self:provider.region}", { "Ref": "AWS::AccountId" }, "${self:custom.managerSnsTopic}" ] ]  }
+    - Effect: Allow
+      Action:
+        - SNS:Publish
+      Resource: { "Fn::Join": [":", ["arn:aws:sns:${self:provider.region}", { "Ref": "AWS::AccountId" }, "${self:custom.workerSnsTopic}" ] ]  }
+    - Effect: Allow
+      Action:
+        - SNS:Publish
+      Resource: ${env:SNS_RESULT_TOPIC_ARN}
+
+package:
+  individually: true
+  exclude:
+    - ./**
+  include:
+    - src/**/*
+
+custom:
+  stageEnv: ${opt:stage, self:provider.stage}
+  defaultRegion: us-east-1
+
+  managerSnsTopic: "${self:service}-${self:custom.stageEnv}-sns-manager"
+  managerSnsTopicArn: { "Fn::Join": [":", ["arn:aws:sns:${self:provider.region}", { "Ref": "AWS::AccountId" }, "${self:custom.managerSnsTopic}" ] ]  }
+  workerSnsTopic: "${self:service}-${self:custom.stageEnv}-sns-worker"
+  workerSnsTopicArn: { "Fn::Join": [":", ["arn:aws:sns:${self:provider.region}", { "Ref": "AWS::AccountId" }, "${self:custom.workerSnsTopic}" ] ]  }
+
+  # Plugins configuration
+  pythonRequirements:
+    dockerizePip: true
+    dockerImage: 'lambci/lambda:build-python3.7'
+    dockerSsh: true
+
+functions:
+  manager-handler:
+    timeout: 30
+    memorySize: 512
+    reservedConcurrency: 20
+    handler: src/handlers/manager_handler.lambda_handler
+    events:
+      - sns:
+          arn: !Ref SNSManagerTopic
+          topicName: ${self:custom.managerSnsTopic}
+  worker-handler:
+    timeout: 900
+    memorySize: 512
+    reservedConcurrency: 20
+    handler: src/handlers/worker_handler.lambda_handler
+    events:
+      - sns:
+          arn: !Ref SNSWorkerTopic
+          topicName: ${self:custom.workerSnsTopic}
+
+resources:
+  Resources:
+    SNSManagerTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${self:custom.managerSnsTopic}
+    SNSWorkerTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${self:custom.workerSnsTopic}

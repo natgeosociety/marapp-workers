@@ -1,0 +1,14 @@
+{
+  "name": "marapp-workers",
+  "version": "1.0.0",
+  "description": "AWS Lambda workers for Marapp",
+  "scripts": {
+    "package": "serverless package --package ./vendor",
+    "serverless:deploy": "serverless deploy --verbose"
+  },
+  "devDependencies": {
+    "serverless": "^1.73.1",
+    "serverless-dotenv-plugin": "^2.4.2",
+    "serverless-python-requirements": "^5.1.0"
+  }
+}
