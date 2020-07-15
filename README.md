@@ -57,18 +57,22 @@ Create a local `.env` file based on [.env.sample](.env.sample), add the required
 npm run serverless:deploy -- --stage <env>
 ```
 
-#### Bundling resources manually (deprecated):
+## Configure Earth Engine assets
 
-```bash
-npm run package
-```
+The template from [earthengine.yaml](src/earthengine.yaml) is required to map existing [Google Earth Engine](https://earthengine.google.com) image assets to computations supported by the library.
 
-Packages all Lambda functions configured in [serverless.yml](serverless.yml) and outputs them individually under the [vendor](vendor) directory.
+For more details about managing assets in Earth Engine, see: https://developers.google.com/earth-engine/asset_manager
 
-The "filename.handler" path of the Lambda function which needs to be configured when deploying the function, is described in the [serverless.yml](serverless.yml) functions -> handler section.
+The following public assets serve as examples for different types of computations supported by the library.
 
-Each zip containing the bundled libraries and code needs to be manually uploaded to an S3 bucket, then the path of the zip referenced in the Lambda configuration. 
-
-![](docs/lambda-package-config.png)
-
-Environment variables expected to be present in the Lambda function need to be manually configured.
+| **Type** | **Dataset** |
+| ------------- |---------------- |
+| `biodiversity_intactness` | https://data.nhm.ac.uk/dataset/global-map-of-the-biodiversity-intactness-index-from-newbold-et-al-2016-science |
+| `human_footprint` | https://datadryad.org/stash/dataset/doi:10.5061/dryad.052q5 |
+| `human_impact` | http://hdr.undp.org/en/content/human-development-index-hdi |
+| `land_cover` | http://maps.elie.ucl.ac.be/CCI/viewer/ |
+| `modis_evi` | https://lpdaac.usgs.gov/products/mod13q1v006/ |
+| `modis_fire`|  http://modis-fire.umd.edu/ |
+| `protected_areas` | https://www.protectedplanet.net/ |
+| `terrestrial_carbon` | https://developers.google.com/earth-engine/datasets/catalog/WCMC_biomass_carbon_density_v1_0 |
+| `tree_loss` | https://earthenginepartners.appspot.com/science-2013-global-forest/download_v1.5.html |
