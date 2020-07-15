@@ -64,7 +64,7 @@ def lambda_handler(event, context):
         raise MetricHandlerException(f"No handler configured for: {handler}")
 
     # instantiate the metric object
-    instance = Handler(grid=True, simplify=True, best_effort=False)
+    instance = Handler(config_filepath='earthengine.yaml', grid=True, simplify=True, best_effort=False)
 
     # create a geopandas GeoDataFrame from the geojson shape
     gdf = GeoDataFrame.from_features(document["geojson"]["features"])
