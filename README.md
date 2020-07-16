@@ -63,7 +63,7 @@ The template from [earthengine.yaml](src/earthengine.yaml) is required to map ex
 
 For more details about managing assets in Earth Engine, see: https://developers.google.com/earth-engine/asset_manager
 
-The following public assets serve as examples for different types of computations supported by the library.
+The following public assets serve as examples for different types of computations supported by the [marapp-metrics](https://github.com/natgeosociety/marapp-metrics) library.
 
 | **Type** | **Dataset** |
 | ------------- |---------------- |
