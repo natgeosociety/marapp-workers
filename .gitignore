@@ -129,3 +129,6 @@ dmypy.json
 
 # editor
 *.iml
+
+# config
+*/**/earthengine.yaml
