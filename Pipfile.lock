@@ -196,7 +196,7 @@
         "marapp-metrics": {
             "editable": true,
             "git": "git@github.com/natgeosociety/marapp-metrics.git",
-            "ref": "3ccb8dfde9a15701fa77acbe5d4c31840a1715cf"
+            "ref": "04a417fded895ed7e7c830c220001ba114a0b00f"
         },
         "munch": {
             "hashes": [
