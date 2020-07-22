@@ -1,3 +1,4 @@
+import os
 from functools import reduce
 from posixpath import join
 
@@ -65,3 +66,10 @@ def urljoin(base, *args):
 
     parts = [part.strip("/") for part in args if part]
     return join(base, *parts)
+
+
+def abspath(current_path, relative_path):
+    """Build an absolute path from relative path"""
+
+    parent = os.path.abspath(os.path.dirname(current_path))
+    return os.path.join(parent, relative_path)

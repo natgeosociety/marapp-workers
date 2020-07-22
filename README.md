@@ -74,6 +74,8 @@ Create a local `.env` file based on [.env.sample](.env.sample), add the required
 npm run serverless:deploy -- --stage <env>
 ```
 
+Use the `--force` flag when your previous deployment failed.
+
 ## Configure Earth Engine assets
 
 The template from [earthengine.yaml](src/earthengine.yaml) is required to map existing [Google Earth Engine](https://earthengine.google.com) image assets to computations supported by the library.
