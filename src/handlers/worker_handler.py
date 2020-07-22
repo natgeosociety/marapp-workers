@@ -30,7 +30,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from config import MetricHandler, MetricHandlerException  # noqa
 from helpers.logging import get_logger  # noqa
-from helpers.util import required_keys  # noqa
+from helpers.util import abspath, required_keys  # noqa
 from services.location_service import LocationService  # noqa
 
 sns = boto3.client("sns")
@@ -84,7 +84,10 @@ def lambda_handler(event, context):
 
     # instantiate the metric object
     instance = Handler(
-        config_filepath="src/earthengine.yaml", grid=True, simplify=True, best_effort=False
+        config_filepath=abspath(__file__, "../earthengine.yaml"),
+        grid=True,
+        simplify=True,
+        best_effort=False,
     )
 
     # create a geopandas GeoDataFrame from the geojson shape
