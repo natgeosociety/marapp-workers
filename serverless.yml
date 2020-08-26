@@ -45,11 +45,14 @@ provider:
       Resource: ${env:SNS_RESULT_TOPIC_ARN}
 
 package:
-  individually: true
+#  individually: true
   exclude:
     - ./**
   include:
     - src/**/*
+  prune:
+    automatic: true
+    number: 3
 
 custom:
   stageEnv: ${opt:stage, self:provider.stage}
