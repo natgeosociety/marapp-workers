@@ -4,6 +4,7 @@ service:
 plugins:
   - serverless-dotenv-plugin
   - serverless-python-requirements
+  - serverless-prune-plugin
 
 provider:
   name: aws
