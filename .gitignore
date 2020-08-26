@@ -132,3 +132,5 @@ dmypy.json
 
 # config
 **/*/earthengine.yaml
+
+node_modules
