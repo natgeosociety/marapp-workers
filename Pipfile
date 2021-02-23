@@ -9,7 +9,7 @@ aws-xray-sdk = "*"
 black = "*"
 
 [packages]
-marapp-metrics = {editable = true, ref = "1.0.3", git = "git@github.com:natgeosociety/marapp-metrics.git"}
+marapp-metrics = {editable = true, ref = "1.0.4", git = "git@github.com:natgeosociety/marapp-metrics.git"}
 geopandas = "*"
 requests = "*"
 json-api-doc = "*"
